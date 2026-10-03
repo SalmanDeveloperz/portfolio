@@ -1,241 +1,106 @@
-/* ----- NAVIGATION BAR FUNCTION ----- */
-function myMenuFunction() {
-    let menuBtn = document.getElementById("myNavMenu");
+(function () {
+    "use strict";
 
-    if (menuBtn.className === "nav-menu") {
-        menuBtn.className += " responsive";
-    } else {
-        menuBtn.className = "nav-menu";
+    var header = document.querySelector(".site-header");
+    var nav = document.getElementById("nav");
+    var toggle = document.getElementById("navToggle");
+
+    /* ----- Header background once scrolled ----- */
+    function onScroll() {
+        header.classList.toggle("scrolled", window.scrollY > 12);
     }
-}
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
 
-/* ----- ADD SHADOW ON NAVIGATION BAR WHILE SCROLLING ----- */
-window.onscroll = function () { headerShadow() };
-
-function headerShadow() {
-    const navHeader = document.getElementById("header");
-
-    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-
-        navHeader.style.boxShadow = "0 1px 6px rgba(0, 0, 0, 0.1)";
-        navHeader.style.height = "70px";
-        navHeader.style.lineHeight = "70px";
-
-    } else {
-
-        navHeader.style.boxShadow = "none";
-        navHeader.style.height = "90px";
-        navHeader.style.lineHeight = "90px";
-
+    /* ----- Mobile menu ----- */
+    function setMenu(open) {
+        nav.classList.toggle("open", open);
+        header.classList.toggle("menu-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     }
-}
-
-/* ----- TYPING EFFECT ----- */
-let typingEffect = new Typed(".typedText", {
-    strings: ["SQA Engineer", "Manual QA", "Automation Engineer", "QA Lead", "QA Analyst"],
-    loop: true,
-    typeSpeed: 100,
-    backSpeed: 80,
-    backDelay: 2000
-})
-
-/* ----- ## -- SCROLL REVEAL ANIMATION -- ## ----- */
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '80px',
-    duration: 2000,
-    reset: true
-})
-
-/* -- HOME -- */
-sr.reveal('.featured-text-card', {})
-sr.reveal('.featured-name', { delay: 100 })
-sr.reveal('.featured-text-info', { delay: 200 })
-sr.reveal('.featured-text-btn', { delay: 200 })
-sr.reveal('.social_icons', { delay: 200 })
-sr.reveal('.featured-image', { delay: 300 })
-
-/* -- PROJECT BOX -- */
-sr.reveal('.project-box', { interval: 200 })
-
-/* -- HEADINGS -- */
-sr.reveal('.top-header', {})
-
-/* ----- ## -- SCROLL REVEAL LEFT_RIGHT ANIMATION -- ## ----- */
-
-/* -- ABOUT INFO & CONTACT INFO -- */
-const srLeft = ScrollReveal({
-    origin: 'left',
-    distance: '80px',
-    duration: 2000,
-    reset: true
-})
-
-srLeft.reveal('.about-info', { delay: 100 })
-srLeft.reveal('.contact-info', { delay: 100 })
-
-/* -- ABOUT SKILLS & FORM BOX -- */
-const srRight = ScrollReveal({
-    origin: 'right',
-    distance: '80px',
-    duration: 2000,
-    reset: true
-})
-
-srRight.reveal('.skills-box', { delay: 100 })
-srRight.reveal('.form-control', { delay: 100 })
-
-/* ----- CHANGE ACTIVE LINK ----- */
-const sections = document.querySelectorAll('section[id]')
-
-function scrollActive() {
-    const scrollY = window.scrollY;
-
-    sections.forEach(current => {
-        const sectionHeight = current.offsetHeight,
-            sectionTop = current.offsetTop - 50,
-            sectionId = current.getAttribute('id')
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            document.querySelector('.nav-menu a[href*=' + sectionId + ']').classList.add('active-link')
-        } else {
-            document.querySelector('.nav-menu a[href*=' + sectionId + ']').classList.remove('active-link')
-        }
-    })
-}
-
-window.addEventListener('scroll', scrollActive)
-
-function downloadCV() {
-    // Replace 'M.Salman%20Resume.pdf' with the actual name of your CV file
-    var cvUrl = 'M.Salman%20Resume.pdf';
-
-    // Create a temporary link element
-    var link = document.createElement('a');
-
-    // Set the href attribute with the file URL
-    link.href = cvUrl;
-
-    // Set the download attribute with the desired file name
-    link.download = 'M.Salman%20Resume.pdf';
-
-    // Append the link to the document
-    document.body.appendChild(link);
-
-    // Trigger a click event on the link to start the download
-    link.click();
-
-    // Remove the link from the document
-    document.body.removeChild(link);
-}
-
-function scrollToContact() {
-    const contactSection = document.getElementById("contact");
-
-    // Scroll smoothly to the contact section
-    contactSection.scrollIntoView({ behavior: "smooth" });
-}
-
-// Form Submission Handling
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Display a success message or perform additional actions here
-        alert('Form submitted successfully!');
+    toggle.addEventListener("click", function () {
+        setMenu(!nav.classList.contains("open"));
     });
-});
+    nav.addEventListener("click", function (e) {
+        if (e.target.closest("a")) setMenu(false);
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") setMenu(false);
+    });
 
-function downloadCV() {
-    // Replace 'YOUR_GOOGLE_FORM_URL' with the actual URL of your Google Form
-    var googleFormUrl = 'YOUR_GOOGLE_FORM_URLhttps://docs.google.com/forms/d/e/1FAIpQLSccSifpZ5gn78Rw_UNh7z75kp-JWDqrTpWpED0wSITDwwJvxQ/viewform?usp=sf_link';
+    /* ----- Active nav link ----- */
+    var links = Array.prototype.slice.call(document.querySelectorAll(".nav-link"));
+    var sections = links
+        .map(function (link) { return document.querySelector(link.getAttribute("href")); })
+        .filter(Boolean);
 
-    // Open the Google Form link
-    window.open(googleFormUrl, '_blank');
-}
+    if ("IntersectionObserver" in window) {
+        var spy = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                links.forEach(function (link) {
+                    link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+                });
+            });
+        }, { rootMargin: "-45% 0px -50% 0px" });
+        sections.forEach(function (s) { spy.observe(s); });
 
-// Form Submission Handling
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function (e) {
+        /* ----- Reveal on scroll ----- */
+        var revealer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("in");
+                    revealer.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+
+        document.querySelectorAll(".reveal").forEach(function (el) {
+            // Stagger siblings in grids slightly
+            var parent = el.parentElement;
+            var siblings = parent ? parent.querySelectorAll(":scope > .reveal") : [];
+            var index = Array.prototype.indexOf.call(siblings, el);
+            if (index > 0) el.style.transitionDelay = Math.min(index, 5) * 70 + "ms";
+            revealer.observe(el);
+        });
+    } else {
+        document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
+    }
+
+    /* ----- Footer year & tool count ----- */
+    document.getElementById("year").textContent = new Date().getFullYear();
+    var toolCount = document.getElementById("toolCount");
+    if (toolCount) toolCount.textContent = document.querySelectorAll(".toolkit .chip").length + " tools";
+
+    /* ----- Contact form (Netlify Forms, submitted in place) ----- */
+    var form = document.getElementById("contactForm");
+    var status = document.getElementById("formStatus");
+    var submit = document.getElementById("formSubmit");
+
+    form.addEventListener("submit", function (e) {
         e.preventDefault();
+        submit.disabled = true;
+        status.className = "form-status";
+        status.textContent = "Sending…";
 
-        // Submit the form asynchronously
-        fetch(form.action, {
-            method: form.method,
-            body: new FormData(form),
+        fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(new FormData(form)).toString()
         })
-            .then(response => {
-                // Display a success message or perform additional actions here
-                alert('Form submitted successfully!');
+            .then(function (res) {
+                if (!res.ok) throw new Error(res.status);
+                form.reset();
+                status.className = "form-status ok";
+                status.textContent = "✓ Message sent. Thank you, I'll be in touch.";
             })
-            .catch(error => {
-                // Handle errors
-                console.error('Error submitting form:', error);
+            .catch(function () {
+                status.className = "form-status err";
+                status.textContent = "Couldn't send. Please email farwaramzan734@gmail.com instead.";
+            })
+            .finally(function () {
+                submit.disabled = false;
             });
     });
-});
-function downloadCV() {
-    // Replace 'YOUR_GOOGLE_FORM_URL' with the actual URL of your Google Form
-    var googleFormUrl = 'YOUR_GOOGLE_FORM_URL';
-
-    // Redirect to the Google Form link
-    window.location.href = googleFormUrl;
-}
-
-
-// const themeToggle = document.getElementById('theme-toggle');
-
-// themeToggle.addEventListener('click', () => {
-//     document.body.classList.toggle('dark-theme');
-//     document.body.classList.toggle('light-theme');
-
-//     // Save the user's preference in localStorage
-//     const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-//     localStorage.setItem('theme', currentTheme);
-// });
-
-// // Apply the saved theme on page load
-// window.onload = () => {
-//     const savedTheme = localStorage.getItem('theme');
-//     if (savedTheme) {
-//         document.body.classList.add(savedTheme === 'dark' ? 'dark-theme' : 'light-theme');
-//     } else {
-//         document.body.classList.add('light-theme'); // Default theme
-//     }
-// };
-
-
-const themeToggle = document.getElementById('theme-toggle');
-const themeIcon = document.getElementById('theme-icon');
-
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-theme');
-    document.body.classList.toggle('light-theme');
-
-    // Change icon based on current theme
-    if (document.body.classList.contains('dark-theme')) {
-        themeIcon.classList.remove('uil-sun'); // Remove sun icon
-        themeIcon.classList.add('uil-moon');   // Add moon icon
-    } else {
-        themeIcon.classList.remove('uil-moon'); // Remove moon icon
-        themeIcon.classList.add('uil-sun');      // Add sun icon
-    }
-
-    // Save the user's preference in localStorage
-    const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-    localStorage.setItem('theme', currentTheme);
-});
-
-// Apply the saved theme on page load
-window.onload = () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.body.classList.add(savedTheme === 'dark' ? 'dark-theme' : 'light-theme');
-        // Set the icon based on the saved theme
-        themeIcon.classList.add(savedTheme === 'dark' ? 'uil-moon' : 'uil-sun');
-    } else {
-        document.body.classList.add('light-theme'); // Default theme
-    }
-};
+})();
