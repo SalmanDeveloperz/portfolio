@@ -128,7 +128,7 @@
         });
     }
 
-    /* ----- Contact form → Formspree (emails farwaramzan734@gmail.com) ----- */
+    /* ----- Contact form → FormSubmit (emails farwaramzan734@gmail.com) ----- */
     var form = document.getElementById("contactForm");
     var status = document.getElementById("formStatus");
     var submit = document.getElementById("formSubmit");
@@ -171,7 +171,7 @@
 
         var data = new FormData(form);
         // Honeypot: real people never fill this in
-        if (data.get("_gotcha")) {
+        if (data.get("_honey")) {
             showSuccess();
             return;
         }
@@ -186,18 +186,17 @@
         status.className = "form-status";
         status.textContent = "";
 
-        fetch(form.action, {
+        // AJAX endpoint returns JSON: { success: "true" | "false", message }
+        var endpoint = form.action.replace("formsubmit.co/", "formsubmit.co/ajax/");
+        fetch(endpoint, {
             method: "POST",
             headers: { Accept: "application/json" },
             body: data
         })
             .then(function (res) {
                 return res.json().catch(function () { return {}; }).then(function (body) {
-                    if (!res.ok) {
-                        var msg = body && body.errors && body.errors.length
-                            ? body.errors.map(function (er) { return er.message; }).join(" ")
-                            : "Server error " + res.status;
-                        throw new Error(msg);
+                    if (!res.ok || String(body.success) !== "true") {
+                        throw new Error((body && body.message) || "Server error " + res.status);
                     }
                 });
             })

@@ -37,7 +37,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 
     <script type="application/ld+json">
     {
@@ -568,13 +568,15 @@
                     </ul>
                 </div>
 
-                <!-- Sends via Formspree, which emails each message to farwaramzan734@gmail.com.
-                     Works without JS too (falls back to Formspree's confirmation page). -->
+                <!-- Sends via FormSubmit, which emails each message straight to farwaramzan734@gmail.com.
+                     Works without JS too (falls back to FormSubmit's confirmation page). -->
                 <form class="contact-form reveal" id="contactForm" novalidate
-                    action="https://formspree.io/f/myzyyepe" method="POST">
+                    action="https://formsubmit.co/farwaramzan734@gmail.com" method="POST">
                     <input type="hidden" name="_subject" value="New message from your portfolio (farich.netlify.app)">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
                     <p class="hp" aria-hidden="true">
-                        <label>Leave this empty <input name="_gotcha" tabindex="-1" autocomplete="off"></label>
+                        <label>Leave this empty <input name="_honey" tabindex="-1" autocomplete="off"></label>
                     </p>
 
                     <div class="field-row">
@@ -623,7 +625,7 @@
         </div>
     </footer>
 
-    <script src="main.js?v=5"></script>
+    <script src="main.js?v=6"></script>
 </body>
 
 </html>

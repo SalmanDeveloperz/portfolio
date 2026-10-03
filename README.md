@@ -22,11 +22,11 @@ Plain HTML, CSS and a small vanilla JS file, with light and dark themes. No buil
 
 ## Contact form
 
-The form posts to [Formspree](https://formspree.io) (`https://formspree.io/f/myzyyepe`), which emails every message to the Formspree account's address (farwaramzan734@gmail.com). Visitors' email is set as reply-to, so you can just hit **Reply** in Gmail.
+The form posts to [FormSubmit](https://formsubmit.co) (`formsubmit.co/ajax/farwaramzan734@gmail.com`), which emails every message straight to farwaramzan734@gmail.com. No account needed. The visitor's email is set as reply-to, so you can hit **Reply** in Gmail.
 
-- Submissions are also listed in the Formspree dashboard.
-- Free plan: 50 submissions/month.
-- If messages stop arriving, check Gmail's Spam folder and the Formspree dashboard first.
+- Each email subject includes the sender's name and time, so Gmail never stacks them into one thread.
+- First-time setup: FormSubmit sends an "Activate Form" email; click the link once.
+- If messages stop arriving, check Gmail's Spam folder first.
 
 ## Run locally
 
