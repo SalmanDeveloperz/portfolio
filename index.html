@@ -4,26 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark">
-    <meta name="theme-color" content="#0b0b0d">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#0b0b0d" id="themeColor">
 
     <title>Farwa Ramzan — Senior QA Engineer & QA Team Lead</title>
-    <meta name="description" content="Farwa Ramzan is a Senior Quality Assurance Engineer and QA Team Lead in Lahore with 5+ years in FinTech, web, desktop and mobile testing: test planning, release management, UAT, Selenium, Cypress, API and database testing, and CI/CD on Azure DevOps.">
+    <meta name="description" content="Farwa Ramzan is a Senior QA Engineer and QA Team Lead in Lahore. 5+ years leading quality on FinTech, web, desktop and mobile products: test strategy, release management, UAT, automation and CI/CD on Azure DevOps.">
     <link rel="canonical" href="https://farich.netlify.app/">
 
     <meta property="og:type" content="profile">
     <meta property="og:title" content="Farwa Ramzan — Senior QA Engineer & QA Team Lead">
-    <meta property="og:description" content="5+ years in FinTech, web, desktop and mobile QA. Test planning, release management, UAT, automation and CI/CD on Azure DevOps.">
+    <meta property="og:description" content="Nothing ships until it's ready. 5+ years leading QA on FinTech, web, desktop and mobile products.">
     <meta property="og:url" content="https://farich.netlify.app/">
 
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0d'/%3E%3Cpath d='M18 33l9 9 19-20' fill='none' stroke='%23f0728f' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+    <!-- Apply saved / system theme before first paint -->
+    <script>
+        (function () {
+            var t;
+            try { t = localStorage.getItem("theme"); } catch (e) {}
+            if (t !== "light" && t !== "dark") {
+                t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+            }
+            document.documentElement.setAttribute("data-theme", t);
+            document.documentElement.classList.add("js");
+        })();
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
-    <script>document.documentElement.classList.add("js");</script>
 
     <script type="application/ld+json">
     {
@@ -43,6 +55,7 @@
 
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <div class="progress" id="progress" aria-hidden="true"></div>
 
     <!-- ============ HEADER ============ -->
     <header class="site-header" id="top">
@@ -55,6 +68,7 @@
             </a>
 
             <nav class="nav" id="nav" aria-label="Primary">
+                <a href="#approach" class="nav-link">Approach</a>
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#process" class="nav-link">Process</a>
                 <a href="#expertise" class="nav-link">Expertise</a>
@@ -66,9 +80,15 @@
                 </a>
             </nav>
 
-            <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
-                <span></span><span></span>
-            </button>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">
+                    <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4" /></svg>
+                    <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z" /></svg>
+                </button>
+                <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+                    <span></span><span></span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -82,15 +102,16 @@
                     <p class="eyebrow"><span class="eyebrow-slash">//</span> Senior QA Engineer · QA Team Lead</p>
 
                     <h1 class="hero-title">
-                        Quality that ships<br>
-                        with <span class="accent">confidence.</span>
+                        Nothing ships<br>
+                        until it's <span class="accent">ready.</span>
                     </h1>
 
                     <p class="hero-lede">
-                        I lead quality for FinTech platforms at Stellarsoft. I own test strategy and UAT, and I make the
-                        go/no-go call on releases. Over 5+ years I've tested web, desktop and mobile products with
-                        Selenium, Cypress, API and database testing, and CI/CD on Azure DevOps.
+                        I'm Farwa. I lead QA on FinTech platforms at Stellarsoft, where one wrong number is a real
+                        problem. I set the test strategy, take clients through UAT, and make the go/no-go call
+                        on every release.
                     </p>
+                    <p class="hero-sub">5+ years across web, desktop and mobile. Still the person who reads the requirements twice.</p>
 
                     <div class="hero-actions">
                         <a href="Farwa_Ramzan_Resume.pdf" class="btn btn-primary" download>
@@ -98,13 +119,13 @@
                             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
                         </a>
                         <a href="#contact" class="btn btn-ghost">
-                            Get in touch
+                            Start a conversation
                             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" /></svg>
                         </a>
                     </div>
 
                     <ul class="hero-meta">
-                        <li><span class="status-dot" aria-hidden="true"></span>Currently at Stellarsoft</li>
+                        <li><span class="status-dot" aria-hidden="true"></span>Leading QA at Stellarsoft</li>
                         <li>
                             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z" /><circle cx="12" cy="10" r="2.3" /></svg>
                             Lahore, Pakistan
@@ -113,7 +134,7 @@
                 </div>
 
                 <!-- Release-readiness report -->
-                <figure class="report" aria-label="Release readiness summary">
+                <figure class="report" aria-label="Career summary, styled as a release-readiness report">
                     <div class="report-head">
                         <span class="report-file">release-readiness.log</span>
                         <span class="pill pill-pass"><span class="pill-dot"></span>Passed</span>
@@ -124,7 +145,7 @@
                             <li><span class="tick">✓</span><span class="key">experience</span><span class="val">5+ years · FinTech, web, desktop, mobile</span></li>
                             <li><span class="tick">✓</span><span class="key">leadership</span><span class="val">Leads &amp; mentors a team of 3 QA engineers</span></li>
                             <li><span class="tick">✓</span><span class="key">stability</span><span class="val"><strong>70%</strong> fewer post-release issues</span></li>
-                            <li><span class="tick">✓</span><span class="key">coverage</span><span class="val"><strong>95–100%</strong> requirements traced (RTM)</span></li>
+                            <li><span class="tick">✓</span><span class="key">coverage</span><span class="val"><strong>95–100%</strong> of requirements traced (RTM)</span></li>
                             <li><span class="tick">✓</span><span class="key">ownership</span><span class="val">Go/no-go, deployments, post-release checks</span></li>
                         </ul>
                         <p class="report-summary">
@@ -136,12 +157,62 @@
             </div>
         </section>
 
-        <!-- ============ EXPERIENCE ============ -->
-        <section class="section" id="experience">
+        <!-- ============ STATS ============ -->
+        <section class="stats-band" aria-label="At a glance">
+            <div class="container">
+                <dl class="stats">
+                    <div class="stat reveal"><dt>Years in QA</dt><dd>5+</dd></div>
+                    <div class="stat reveal"><dt>Fewer post-release issues</dt><dd>70%</dd></div>
+                    <div class="stat reveal"><dt>Requirement coverage</dt><dd>95–100%</dd></div>
+                    <div class="stat reveal"><dt>Products tested</dt><dd>9</dd></div>
+                </dl>
+            </div>
+        </section>
+
+        <!-- ============ APPROACH ============ -->
+        <section class="section" id="approach">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="section-index">01 — Experience</p>
-                    <h2 class="section-title">5+ years, from intern to team lead.</h2>
+                    <p class="section-index">01 — Approach</p>
+                    <h2 class="section-title">How I think about quality.</h2>
+                    <p class="section-lede">Finding bugs is the easy part. The real work is knowing which risks matter, proving the product does what was promised, and deciding when it's ready.</p>
+                </header>
+
+                <div class="principles">
+                    <article class="principle reveal">
+                        <span class="principle-num">01</span>
+                        <h3>Test by risk, not by habit.</h3>
+                        <p>Not every feature carries the same weight. I put testing effort where a failure would hurt the business most.</p>
+                        <p class="principle-proof"><span>In practice</span>Risk management and impact-based prioritisation on every CR.</p>
+                    </article>
+                    <article class="principle reveal">
+                        <span class="principle-num">02</span>
+                        <h3>Requirements are the contract.</h3>
+                        <p>If a requirement isn't traced to a test, nobody has actually checked it. I keep that link visible from start to finish.</p>
+                        <p class="principle-proof"><span>In practice</span>A Requirement Traceability Matrix at 95–100% coverage.</p>
+                    </article>
+                    <article class="principle reveal">
+                        <span class="principle-num">03</span>
+                        <h3>A release is a decision, not a date.</h3>
+                        <p>Shipping on schedule only matters if what ships works. I make the call on evidence and stand behind it.</p>
+                        <p class="principle-proof"><span>In practice</span>I own go/no-go decisions and post-release checks.</p>
+                    </article>
+                    <article class="principle reveal">
+                        <span class="principle-num">04</span>
+                        <h3>Good QA makes the team faster.</h3>
+                        <p>Done well, QA speeds the team up. Repeatable environments and a well-mentored team mean shorter cycles and fewer surprises.</p>
+                        <p class="principle-proof"><span>In practice</span>QA environments on Azure DevOps CI/CD, and a team of 3 I mentor.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ EXPERIENCE ============ -->
+        <section class="section section-alt" id="experience">
+            <div class="container">
+                <header class="section-head reveal">
+                    <p class="section-index">02 — Experience</p>
+                    <h2 class="section-title">From writing test cases to leading the team.</h2>
                 </header>
 
                 <ol class="timeline">
@@ -150,35 +221,36 @@
                         <div class="role-meta">
                             <p class="role-dates">Jul 2024 — Present</p>
                             <p class="role-company">Stellarsoft</p>
+                            <p class="role-badge">Current</p>
                         </div>
                         <div class="role-body">
                             <h3 class="role-title">Senior Software Quality Assurance Analyst</h3>
-                            <p class="role-summary">Leading QA for FinTech platforms, from test planning to client sign-off and release.</p>
+                            <p class="role-summary">I own quality on FinTech platforms, from planning a change request to signing off the release.</p>
 
                             <div class="role-groups">
                                 <div class="role-group">
-                                    <p class="group-label">Leadership</p>
+                                    <p class="group-label">Leading the team</p>
                                     <ul class="bullets">
-                                        <li>Lead and mentor a team of 3 QA engineers, driving quality standards, code-of-practice adherence and continuous improvement across projects</li>
+                                        <li>Lead and mentor a team of 3 QA engineers, setting quality standards, enforcing code-of-practice and driving continuous improvement across projects</li>
                                         <li>Estimate effort and timelines for new change requests (CRs)</li>
                                         <li>Manage project risks and prioritise testing by business impact</li>
-                                        <li>Keep the team aligned through sprint ceremonies and day-to-day collaboration</li>
+                                        <li>Keep QA aligned with development through sprint ceremonies and day-to-day collaboration</li>
                                     </ul>
                                 </div>
                                 <div class="role-group">
-                                    <p class="group-label">Testing</p>
+                                    <p class="group-label">Protecting the product</p>
                                     <ul class="bullets">
-                                        <li>Ensure quality of FinTech platforms through functional, API and database testing, with a focus on financial data accuracy</li>
-                                        <li>Create test plans and test cases for functional, regression and integration testing</li>
-                                        <li>Run API testing with Postman and Bruno, and database testing with SQL and SSMS</li>
+                                        <li>Safeguard FinTech platforms with functional, API and database testing, with a focus on financial data accuracy</li>
+                                        <li>Write test plans and test cases for functional, regression and integration testing</li>
+                                        <li>Test APIs with Postman and Bruno, and validate data with SQL in SSMS</li>
                                     </ul>
                                 </div>
                                 <div class="role-group">
-                                    <p class="group-label">Release &amp; delivery</p>
+                                    <p class="group-label">Shipping it</p>
                                     <ul class="bullets">
                                         <li>Own release management: go/no-go decisions, deployments and post-release checks</li>
-                                        <li>Coordinate UAT with clients through to sign-off</li>
-                                        <li>Deploy and manage QA environments through CI/CD pipelines on Azure DevOps, enabling faster, repeatable test cycles</li>
+                                        <li>Take clients through UAT to formal sign-off</li>
+                                        <li>Deploy and manage QA environments through CI/CD pipelines on Azure DevOps for faster, repeatable test cycles</li>
                                     </ul>
                                 </div>
                             </div>
@@ -199,16 +271,16 @@
                             <h3 class="role-title">SQA Engineer</h3>
 
                             <div class="highlight">
-                                <span class="highlight-num">70%</span>
-                                <span class="highlight-text">fewer post-release issues, from finding and resolving critical defects before deployment</span>
+                                <span class="highlight-num">−70%</span>
+                                <span class="highlight-text">post-release issues, by catching and resolving critical defects before deployment.</span>
                             </div>
 
                             <ul class="bullets">
-                                <li>Executed functional, smoke, sanity, regression, integration and system testing across web and desktop applications, helping reduce production defects</li>
-                                <li>Designed and maintained test cases and a Requirement Traceability Matrix (RTM) for 95–100% requirement coverage</li>
-                                <li>Logged, prioritised and tracked defects in Jira, working with developers to cut average bug resolution time</li>
-                                <li>Joined client communication and requirement-gathering sessions to clarify scope and define acceptance criteria for new features</li>
-                                <li>Performed API and database validation to verify end-to-end data accuracy across integrated systems</li>
+                                <li>Ran functional, smoke, sanity, regression, integration and system testing across web and desktop applications</li>
+                                <li>Built and maintained test cases and a Requirement Traceability Matrix (RTM) for 95–100% requirement coverage</li>
+                                <li>Logged, prioritised and tracked defects in Jira, working with developers to cut average resolution time</li>
+                                <li>Worked directly with clients in requirement sessions to clarify scope and define acceptance criteria</li>
+                                <li>Validated APIs and databases to confirm end-to-end data accuracy across integrated systems</li>
                             </ul>
 
                             <ul class="tags">
@@ -226,11 +298,10 @@
                         <div class="role-body">
                             <h3 class="role-title">Associate Quality Assurance</h3>
                             <ul class="bullets">
-                                <li>Designed test plans, scenarios and procedures, and planned test schedules against project scope and delivery dates</li>
-                                <li>Documented defects in a bug-tracking system and monitored resolution using Jira and ClickUp</li>
-                                <li>Contributed to product design reviews on functional requirements, designs, schedules and potential problems</li>
-                                <li>Tested system modifications ahead of implementation</li>
-                                <li>Tested mobile apps on both Android and iOS</li>
+                                <li>Designed test plans, scenarios and procedures, and planned test schedules against scope and delivery dates</li>
+                                <li>Reported defects and tracked them to resolution in Jira and ClickUp</li>
+                                <li>Took part in product design reviews, flagging gaps in requirements, designs and schedules early</li>
+                                <li>Tested system changes before release, including Android and iOS mobile apps</li>
                             </ul>
                             <ul class="tags">
                                 <li>Android</li><li>iOS</li><li>Jira</li><li>ClickUp</li>
@@ -246,11 +317,11 @@
                         </div>
                         <div class="role-body">
                             <h3 class="role-title">SQA Intern</h3>
+                            <p class="role-summary">Where it started.</p>
                             <ul class="bullets">
                                 <li>Wrote test cases from business requirements</li>
-                                <li>Performed manual and black-box testing on web and mobile app features</li>
-                                <li>Executed system, integration, UI/UX, regression, smoke and sanity testing</li>
-                                <li>Re-tested fixed defects and reported bugs to developers</li>
+                                <li>Ran manual, black-box, system, integration, UI/UX, regression, smoke and sanity testing on web and mobile</li>
+                                <li>Re-tested fixes and reported defects to developers</li>
                             </ul>
                             <ul class="tags">
                                 <li>Manual testing</li><li>Black-box</li><li>Web &amp; mobile</li>
@@ -262,24 +333,24 @@
         </section>
 
         <!-- ============ PROCESS ============ -->
-        <section class="section section-alt" id="process">
+        <section class="section" id="process">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="section-index">02 — Process</p>
-                    <h2 class="section-title">How a release gets to “go”.</h2>
-                    <p class="section-lede">The QA lifecycle I run on every project, from the first change request to post-release checks.</p>
+                    <p class="section-index">03 — Process</p>
+                    <h2 class="section-title">How a release earns its “go”.</h2>
+                    <p class="section-lede">Six stages I run on every project, from the first change request to the checks after it's live.</p>
                 </header>
 
                 <ol class="pipeline">
                     <li class="stage reveal">
                         <div class="stage-top"><span class="stage-num">01</span><span class="stage-check" aria-hidden="true">✓</span></div>
                         <h3 class="stage-title">Plan</h3>
-                        <p>Effort estimates for change requests, risk analysis, and testing prioritised by business impact.</p>
+                        <p>Estimate the change, map the risks, and decide what deserves the most attention.</p>
                     </li>
                     <li class="stage reveal">
                         <div class="stage-top"><span class="stage-num">02</span><span class="stage-check" aria-hidden="true">✓</span></div>
                         <h3 class="stage-title">Design</h3>
-                        <p>Test plans, scenarios and cases, traced back to requirements through an RTM.</p>
+                        <p>Test plans, scenarios and cases, each traced back to a requirement.</p>
                     </li>
                     <li class="stage reveal">
                         <div class="stage-top"><span class="stage-num">03</span><span class="stage-check" aria-hidden="true">✓</span></div>
@@ -289,27 +360,27 @@
                     <li class="stage reveal">
                         <div class="stage-top"><span class="stage-num">04</span><span class="stage-check" aria-hidden="true">✓</span></div>
                         <h3 class="stage-title">Track</h3>
-                        <p>Defects logged, prioritised and driven to resolution with developers in Jira.</p>
+                        <p>Every defect logged, prioritised and followed through to a fix in Jira.</p>
                     </li>
                     <li class="stage reveal">
                         <div class="stage-top"><span class="stage-num">05</span><span class="stage-check" aria-hidden="true">✓</span></div>
                         <h3 class="stage-title">Accept</h3>
-                        <p>UAT coordinated with clients and taken through to formal sign-off.</p>
+                        <p>UAT with the client, taken through to formal sign-off.</p>
                     </li>
                     <li class="stage reveal">
                         <div class="stage-top"><span class="stage-num">06</span><span class="stage-check" aria-hidden="true">✓</span></div>
                         <h3 class="stage-title">Release</h3>
-                        <p>Go/no-go decision, deployment through Azure DevOps pipelines, then post-release verification.</p>
+                        <p>The go/no-go call, deployment through Azure DevOps, then verification in production.</p>
                     </li>
                 </ol>
             </div>
         </section>
 
         <!-- ============ EXPERTISE ============ -->
-        <section class="section" id="expertise">
+        <section class="section section-alt" id="expertise">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="section-index">03 — Expertise</p>
+                    <p class="section-index">04 — Expertise</p>
                     <h2 class="section-title">Skills &amp; toolkit.</h2>
                 </header>
 
@@ -320,7 +391,7 @@
                             <li>Release management</li>
                             <li>Test planning &amp; case design</li>
                             <li>UAT coordination</li>
-                            <li>Risk management</li>
+                            <li>Risk management &amp; estimation</li>
                             <li>QA process &amp; task management</li>
                             <li>Agile / Scrum</li>
                         </ul>
@@ -333,7 +404,7 @@
                             <li>API testing</li>
                             <li>Performance testing</li>
                             <li>Database testing (SQL)</li>
-                            <li>Defect management &amp; bug reporting</li>
+                            <li>Defect management &amp; reporting</li>
                         </ul>
                     </div>
                     <div class="skill-col reveal">
@@ -344,7 +415,7 @@
                             <li>Python</li>
                             <li>CI/CD pipelines on Azure DevOps</li>
                             <li>QA environment management</li>
-                            <li>Documentation &amp; reporting</li>
+                            <li>Documentation</li>
                         </ul>
                     </div>
                 </div>
@@ -389,12 +460,12 @@
         </section>
 
         <!-- ============ PROJECTS ============ -->
-        <section class="section section-alt" id="projects">
+        <section class="section" id="projects">
             <div class="container">
                 <header class="section-head reveal">
-                    <p class="section-index">04 — Projects</p>
+                    <p class="section-index">05 — Projects</p>
                     <h2 class="section-title">Products I've tested.</h2>
-                    <p class="section-lede">Nine products across FinTech, education, events and mobile, including multi-client financial platforms.</p>
+                    <p class="section-lede">Nine products in FinTech, education, events and mobile, including financial platforms serving multiple clients.</p>
                 </header>
 
                 <ul class="projects">
@@ -448,10 +519,10 @@
         </section>
 
         <!-- ============ EDUCATION ============ -->
-        <section class="section section-tight" id="education">
+        <section class="section section-tight section-alt" id="education">
             <div class="container">
                 <div class="education reveal">
-                    <p class="section-index">05 — Education</p>
+                    <p class="section-index">06 — Education</p>
                     <div class="edu-card">
                         <div>
                             <h3 class="edu-degree">BS Computer Science</h3>
@@ -470,60 +541,73 @@
         <section class="section contact-section" id="contact">
             <div class="container contact-grid">
                 <div class="contact-copy reveal">
-                    <p class="section-index">06 — Contact</p>
-                    <h2 class="section-title">Let's talk quality.</h2>
-                    <p class="section-lede">Reach out about roles, collaborations or anything QA.</p>
+                    <p class="section-index">07 — Contact</p>
+                    <h2 class="section-title">Shipping something that can't afford to break?</h2>
+                    <p class="section-lede">I'm happy to talk about QA leadership roles, release processes, or a product that needs a second pair of eyes. Send a message and it comes straight to me.</p>
 
                     <ul class="contact-links">
-                        <li>
-                            <a href="mailto:farwaramzan734@gmail.com" class="contact-link">
-                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3.5 6.5l8.5 6 8.5-6" /></svg>
-                                <span>
-                                    <span class="contact-label">Email</span>
-                                    <span class="contact-value">farwaramzan734@gmail.com</span>
-                                </span>
+                        <li class="contact-link">
+                            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3.5 6.5l8.5 6 8.5-6" /></svg>
+                            <a href="mailto:farwaramzan734@gmail.com" class="contact-main">
+                                <span class="contact-label">Email</span>
+                                <span class="contact-value">farwaramzan734@gmail.com</span>
                             </a>
+                            <button type="button" class="copy-btn" id="copyEmail" data-copy="farwaramzan734@gmail.com" aria-label="Copy email address">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2" /></svg>
+                                <span class="copy-text">Copy</span>
+                            </button>
                         </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/farwa-ramzan/" class="contact-link" target="_blank" rel="noopener">
-                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M8 10.5V16M8 7.6v.1M12 16v-3.2c0-1.5 1-2.3 2.1-2.3s1.9.8 1.9 2.3V16M12 10.5V16" /></svg>
-                                <span>
-                                    <span class="contact-label">LinkedIn</span>
-                                    <span class="contact-value">in/farwa-ramzan</span>
-                                </span>
+                        <li class="contact-link">
+                            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M8 10.5V16M8 7.6v.1M12 16v-3.2c0-1.5 1-2.3 2.1-2.3s1.9.8 1.9 2.3V16M12 10.5V16" /></svg>
+                            <a href="https://www.linkedin.com/in/farwa-ramzan/" class="contact-main" target="_blank" rel="noopener">
+                                <span class="contact-label">LinkedIn</span>
+                                <span class="contact-value">in/farwa-ramzan</span>
                             </a>
+                            <svg class="icon contact-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7m0 0H9m8 0v8" /></svg>
                         </li>
                     </ul>
                 </div>
 
-                <form class="contact-form reveal" name="contact" method="POST" action="/thanks.html"
-                    data-netlify="true" netlify-honeypot="bot-field" id="contactForm">
-                    <input type="hidden" name="form-name" value="contact">
+                <!-- Sends to Google Forms. Works without JS too (falls back to Google's confirmation page). -->
+                <form class="contact-form reveal" id="contactForm" novalidate
+                    action="https://docs.google.com/forms/d/e/1FAIpQLSccSifpZ5gn78Rw_UNh7z75kp-JWDqrTpWpED0wSITDwwJvxQ/formResponse"
+                    method="POST" target="_blank">
+                    <input type="hidden" name="entry.274318874" value="Option 1">
                     <p class="hp" aria-hidden="true">
-                        <label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+                        <label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label>
                     </p>
 
                     <div class="field-row">
                         <div class="field">
-                            <label for="f-name">Name</label>
-                            <input id="f-name" name="name" type="text" autocomplete="name" required>
+                            <label for="f-name">Your name</label>
+                            <input id="f-name" name="entry.551793403" type="text" autocomplete="name" required maxlength="120">
+                            <p class="field-error" data-for="f-name">Please add your name.</p>
                         </div>
                         <div class="field">
                             <label for="f-email">Email</label>
-                            <input id="f-email" name="email" type="email" autocomplete="email" required>
+                            <input id="f-email" name="entry.129362744" type="email" autocomplete="email" required maxlength="200">
+                            <p class="field-error" data-for="f-email">Please enter a valid email.</p>
                         </div>
                     </div>
                     <div class="field">
                         <label for="f-message">Message</label>
-                        <textarea id="f-message" name="message" rows="5" required></textarea>
+                        <textarea id="f-message" name="entry.1755130640" rows="5" required maxlength="4000" placeholder="A role, a project, or a question about QA…"></textarea>
+                        <p class="field-error" data-for="f-message">A short message helps me reply properly.</p>
                     </div>
 
                     <div class="form-foot">
                         <button type="submit" class="btn btn-primary" id="formSubmit">
-                            Send message
+                            <span class="btn-label">Send message</span>
                             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" /></svg>
                         </button>
                         <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+                    </div>
+
+                    <div class="form-success" id="formSuccess" hidden>
+                        <span class="pill pill-pass"><span class="pill-dot"></span>Delivered</span>
+                        <h3>Message sent. Thank you.</h3>
+                        <p>I'll get back to you at the email you gave.</p>
+                        <button type="button" class="btn btn-ghost btn-sm" id="formAgain">Send another</button>
                     </div>
                 </form>
             </div>

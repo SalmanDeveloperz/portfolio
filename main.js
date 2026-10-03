@@ -1,25 +1,61 @@
 (function () {
     "use strict";
 
+    var root = document.documentElement;
     var header = document.querySelector(".site-header");
     var nav = document.getElementById("nav");
-    var toggle = document.getElementById("navToggle");
+    var navToggle = document.getElementById("navToggle");
+    var progress = document.getElementById("progress");
 
-    /* ----- Header background once scrolled ----- */
+    /* ----- Theme switch (saved per visitor, defaults to system) ----- */
+    var themeToggle = document.getElementById("themeToggle");
+    var themeColor = document.getElementById("themeColor");
+
+    function applyTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+        themeColor.setAttribute("content", theme === "dark" ? "#0b0b0d" : "#f8f7f4");
+    }
+    applyTheme(root.getAttribute("data-theme") || "dark");
+
+    themeToggle.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.classList.add("theme-anim");
+        applyTheme(next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+        setTimeout(function () { root.classList.remove("theme-anim"); }, 400);
+    });
+
+    // Follow the OS setting until the visitor picks a theme themselves
+    if (window.matchMedia) {
+        var mq = window.matchMedia("(prefers-color-scheme: light)");
+        var onSystemChange = function (e) {
+            var saved = null;
+            try { saved = localStorage.getItem("theme"); } catch (err) {}
+            if (!saved) applyTheme(e.matches ? "light" : "dark");
+        };
+        if (mq.addEventListener) mq.addEventListener("change", onSystemChange);
+    }
+
+    /* ----- Header state + reading progress ----- */
     function onScroll() {
-        header.classList.toggle("scrolled", window.scrollY > 12);
+        var y = window.scrollY;
+        header.classList.toggle("scrolled", y > 12);
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
 
     /* ----- Mobile menu ----- */
     function setMenu(open) {
         nav.classList.toggle("open", open);
         header.classList.toggle("menu-open", open);
-        toggle.setAttribute("aria-expanded", String(open));
-        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     }
-    toggle.addEventListener("click", function () {
+    navToggle.addEventListener("click", function () {
         setMenu(!nav.classList.contains("open"));
     });
     nav.addEventListener("click", function (e) {
@@ -29,7 +65,7 @@
         if (e.key === "Escape") setMenu(false);
     });
 
-    /* ----- Active nav link ----- */
+    /* ----- Active nav link + reveal on scroll ----- */
     var links = Array.prototype.slice.call(document.querySelectorAll(".nav-link"));
     var sections = links
         .map(function (link) { return document.querySelector(link.getAttribute("href")); })
@@ -46,7 +82,6 @@
         }, { rootMargin: "-45% 0px -50% 0px" });
         sections.forEach(function (s) { spy.observe(s); });
 
-        /* ----- Reveal on scroll ----- */
         var revealer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
@@ -54,14 +89,12 @@
                     revealer.unobserve(entry.target);
                 }
             });
-        }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+        }, { rootMargin: "0px 0px -6% 0px", threshold: 0.06 });
 
         document.querySelectorAll(".reveal").forEach(function (el) {
-            // Stagger siblings in grids slightly
-            var parent = el.parentElement;
-            var siblings = parent ? parent.querySelectorAll(":scope > .reveal") : [];
+            var siblings = el.parentElement ? el.parentElement.querySelectorAll(":scope > .reveal") : [];
             var index = Array.prototype.indexOf.call(siblings, el);
-            if (index > 0) el.style.transitionDelay = Math.min(index, 5) * 70 + "ms";
+            if (index > 0) el.style.transitionDelay = Math.min(index, 5) * 60 + "ms";
             revealer.observe(el);
         });
     } else {
@@ -73,34 +106,110 @@
     var toolCount = document.getElementById("toolCount");
     if (toolCount) toolCount.textContent = document.querySelectorAll(".toolkit .chip").length + " tools";
 
-    /* ----- Contact form (Netlify Forms, submitted in place) ----- */
+    /* ----- Copy email ----- */
+    var copyBtn = document.getElementById("copyEmail");
+    if (copyBtn) {
+        copyBtn.addEventListener("click", function () {
+            var text = copyBtn.getAttribute("data-copy");
+            var label = copyBtn.querySelector(".copy-text");
+            var done = function () {
+                copyBtn.classList.add("copied");
+                label.textContent = "Copied";
+                setTimeout(function () {
+                    copyBtn.classList.remove("copied");
+                    label.textContent = "Copy";
+                }, 1800);
+            };
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(done, function () { window.location.href = "mailto:" + text; });
+            } else {
+                window.location.href = "mailto:" + text;
+            }
+        });
+    }
+
+    /* ----- Contact form → Google Forms ----- */
     var form = document.getElementById("contactForm");
     var status = document.getElementById("formStatus");
     var submit = document.getElementById("formSubmit");
+    var success = document.getElementById("formSuccess");
+    var again = document.getElementById("formAgain");
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    function validateField(input) {
+        var value = input.value.trim();
+        var ok = value.length > 0 && (input.type !== "email" || EMAIL_RE.test(value));
+        input.closest(".field").classList.toggle("invalid", !ok);
+        input.setAttribute("aria-invalid", String(!ok));
+        return ok;
+    }
+
+    var inputs = Array.prototype.slice.call(form.querySelectorAll("input[required], textarea[required]"));
+    inputs.forEach(function (input) {
+        var err = form.querySelector('.field-error[data-for="' + input.id + '"]');
+        if (err) {
+            err.id = input.id + "-error";
+            input.setAttribute("aria-describedby", err.id);
+        }
+        input.addEventListener("blur", function () { if (input.value) validateField(input); });
+        input.addEventListener("input", function () {
+            if (input.closest(".field").classList.contains("invalid")) validateField(input);
+        });
+    });
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
-        submit.disabled = true;
-        status.className = "form-status";
-        status.textContent = "Sending…";
 
-        fetch("/", {
+        var firstBad = null;
+        inputs.forEach(function (input) {
+            if (!validateField(input) && !firstBad) firstBad = input;
+        });
+        if (firstBad) {
+            firstBad.focus();
+            return;
+        }
+
+        var data = new FormData(form);
+        // Honeypot: real people never fill this in
+        if (data.get("company")) {
+            showSuccess();
+            return;
+        }
+        data.delete("company");
+
+        submit.disabled = true;
+        submit.querySelector(".btn-label").textContent = "Sending…";
+        status.className = "form-status";
+        status.textContent = "";
+
+        // Google Forms doesn't send CORS headers, so the response is opaque.
+        // A resolved request means Google accepted it; only network failures reject.
+        fetch(form.action, {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(new FormData(form)).toString()
+            mode: "no-cors",
+            body: new URLSearchParams(data)
         })
-            .then(function (res) {
-                if (!res.ok) throw new Error(res.status);
+            .then(function () {
                 form.reset();
-                status.className = "form-status ok";
-                status.textContent = "✓ Message sent. Thank you, I'll be in touch.";
+                inputs.forEach(function (input) { input.closest(".field").classList.remove("invalid"); });
+                showSuccess();
             })
             .catch(function () {
                 status.className = "form-status err";
-                status.textContent = "Couldn't send. Please email farwaramzan734@gmail.com instead.";
+                status.innerHTML = 'Couldn\'t send right now. Please email <a href="mailto:farwaramzan734@gmail.com">farwaramzan734@gmail.com</a>.';
             })
             .finally(function () {
                 submit.disabled = false;
+                submit.querySelector(".btn-label").textContent = "Send message";
             });
+    });
+
+    function showSuccess() {
+        success.hidden = false;
+        again.focus();
+    }
+    again.addEventListener("click", function () {
+        success.hidden = true;
+        document.getElementById("f-name").focus();
     });
 })();
