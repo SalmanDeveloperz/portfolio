@@ -37,7 +37,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=5">
 
     <script type="application/ld+json">
     {
@@ -568,30 +568,30 @@
                     </ul>
                 </div>
 
-                <!-- Sends to Google Forms. Works without JS too (falls back to Google's confirmation page). -->
+                <!-- Sends via Formspree, which emails each message to farwaramzan734@gmail.com.
+                     Works without JS too (falls back to Formspree's confirmation page). -->
                 <form class="contact-form reveal" id="contactForm" novalidate
-                    action="https://docs.google.com/forms/d/e/1FAIpQLSccSifpZ5gn78Rw_UNh7z75kp-JWDqrTpWpED0wSITDwwJvxQ/formResponse"
-                    method="POST" target="_blank">
-                    <input type="hidden" name="entry.274318874" value="Option 1">
+                    action="https://formspree.io/f/myzyyepe" method="POST">
+                    <input type="hidden" name="_subject" value="New message from your portfolio (farich.netlify.app)">
                     <p class="hp" aria-hidden="true">
-                        <label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label>
+                        <label>Leave this empty <input name="_gotcha" tabindex="-1" autocomplete="off"></label>
                     </p>
 
                     <div class="field-row">
                         <div class="field">
                             <label for="f-name">Your name</label>
-                            <input id="f-name" name="entry.551793403" type="text" autocomplete="name" required maxlength="120">
+                            <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
                             <p class="field-error" data-for="f-name">Please add your name.</p>
                         </div>
                         <div class="field">
                             <label for="f-email">Email</label>
-                            <input id="f-email" name="entry.129362744" type="email" autocomplete="email" required maxlength="200">
+                            <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200">
                             <p class="field-error" data-for="f-email">Please enter a valid email.</p>
                         </div>
                     </div>
                     <div class="field">
                         <label for="f-message">Message</label>
-                        <textarea id="f-message" name="entry.1755130640" rows="5" required maxlength="4000" placeholder="A role, a project, or a question about QA…"></textarea>
+                        <textarea id="f-message" name="message" rows="5" required maxlength="4000" placeholder="A role, a project, or a question about QA…"></textarea>
                         <p class="field-error" data-for="f-message">A short message helps me reply properly.</p>
                     </div>
 
@@ -623,7 +623,7 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
+    <script src="main.js?v=5"></script>
 </body>
 
 </html>

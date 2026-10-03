@@ -128,7 +128,7 @@
         });
     }
 
-    /* ----- Contact form → Google Forms ----- */
+    /* ----- Contact form → Formspree (emails farwaramzan734@gmail.com) ----- */
     var form = document.getElementById("contactForm");
     var status = document.getElementById("formStatus");
     var submit = document.getElementById("formSubmit");
@@ -171,32 +171,45 @@
 
         var data = new FormData(form);
         // Honeypot: real people never fill this in
-        if (data.get("company")) {
+        if (data.get("_gotcha")) {
             showSuccess();
             return;
         }
-        data.delete("company");
+
+        // Unique subject per sender so Gmail doesn't fold every message into one thread
+        var sender = String(data.get("name") || "").trim().slice(0, 60);
+        var stamp = new Date().toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+        data.set("_subject", "Portfolio message from " + sender + " (" + stamp + ")");
 
         submit.disabled = true;
         submit.querySelector(".btn-label").textContent = "Sending…";
         status.className = "form-status";
         status.textContent = "";
 
-        // Google Forms doesn't send CORS headers, so the response is opaque.
-        // A resolved request means Google accepted it; only network failures reject.
         fetch(form.action, {
             method: "POST",
-            mode: "no-cors",
-            body: new URLSearchParams(data)
+            headers: { Accept: "application/json" },
+            body: data
         })
+            .then(function (res) {
+                return res.json().catch(function () { return {}; }).then(function (body) {
+                    if (!res.ok) {
+                        var msg = body && body.errors && body.errors.length
+                            ? body.errors.map(function (er) { return er.message; }).join(" ")
+                            : "Server error " + res.status;
+                        throw new Error(msg);
+                    }
+                });
+            })
             .then(function () {
                 form.reset();
                 inputs.forEach(function (input) { input.closest(".field").classList.remove("invalid"); });
                 showSuccess();
             })
-            .catch(function () {
+            .catch(function (err) {
+                if (window.console) console.warn("Contact form:", err && err.message);
                 status.className = "form-status err";
-                status.innerHTML = 'Couldn\'t send right now. Please email <a href="mailto:farwaramzan734@gmail.com">farwaramzan734@gmail.com</a>.';
+                status.innerHTML = "Couldn't send right now. Please email <a href=\"mailto:farwaramzan734@gmail.com\">farwaramzan734@gmail.com</a>.";
             })
             .finally(function () {
                 submit.disabled = false;

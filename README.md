@@ -22,16 +22,11 @@ Plain HTML, CSS and a small vanilla JS file, with light and dark themes. No buil
 
 ## Contact form
 
-The form posts to a Google Form (`formResponse` URL in `index.html`). Answers land in that form's **Responses** tab in Google Forms. To get them by email, open the form and go to Responses → ⋮ → *Get email notifications for new responses*.
+The form posts to [Formspree](https://formspree.io) (`https://formspree.io/f/myzyyepe`), which emails every message to the Formspree account's address (farwaramzan734@gmail.com). Visitors' email is set as reply-to, so you can just hit **Reply** in Gmail.
 
-Field mapping (if the form is ever replaced, update these `name` attributes):
-
-| Site field | Google Form entry |
-| --- | --- |
-| Name | `entry.551793403` |
-| Email | `entry.129362744` |
-| Message | `entry.1755130640` |
-| (required checkbox, sent automatically) | `entry.274318874` = `Option 1` |
+- Submissions are also listed in the Formspree dashboard.
+- Free plan: 50 submissions/month.
+- If messages stop arriving, check Gmail's Spam folder and the Formspree dashboard first.
 
 ## Run locally
 
